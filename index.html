@@ -58,6 +58,7 @@
         --logo-l: url("logo.png");
         --logo-d: url("logo-claro.png");
         --logo: var(--logo-d);
+        --logo-rojo: url("logo-rojo.png");
         --serif: "Oswald", "Arial Narrow", Impact, sans-serif;
         --sans: "Barlow", "Helvetica Neue", Arial, sans-serif;
         color-scheme: dark;
@@ -113,9 +114,10 @@
       }
       /* LOGO: sello circular (proporción 1:1). Archivos: logo.png (principal) y logo-claro.png (versión clara). */
       .logo {
-        background: var(--logo) center/contain no-repeat;
+        background: var(--logo-rojo) center/contain no-repeat;
         aspect-ratio: 1;
         display: block;
+        justify-self: center;
       }
       /* BARRA SUPERIOR fija con logo, links y botón del carrito. */
       nav {
