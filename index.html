@@ -44,14 +44,16 @@
       /* COLORES Y FUENTES de la marca.  
    LOGO: los dos archivos tienen que estar en la MISMA CARPETA que este html. */
       :root {
-        --ember: #D62828;
+        --ember: #EFE5D2;
         --bone: #f2efe9;
         --grafito: #262626;
-        --rojo: #c4251d;
-        --dorado: #e8b84a;
+        --rojo: #f19692;
+        --dorado: #C28D39;
         --bg: #000000;
         --fg: #f2efe9;
         --ac: #D62828;
+        --links: #C28D39;
+        --oscuros: #362822;
         --su: #0e0e0e;
         --card: #131313;
         --linea: #2b2b2b;
@@ -92,10 +94,9 @@
         padding: 0 22px;
       }
       h1,
-      h2,
-      h3 {
+      h2 {
         font-family: var(--serif);
-        color: var(--ac);
+        color: var(--ember);
         margin: 0;
         line-height: 1.1;
       }
@@ -103,9 +104,10 @@
         font-size: clamp(2rem, 5vw, 3.2rem);
         text-transform: uppercase;
         letter-spacing: 0.01em;
+        color: var(--ember);
       }
       a {
-        color: var(--fg);
+        color: var(--dorado);
         font-weight: 600;
       }
       p {
@@ -207,7 +209,7 @@
       .lema {
         font: 600 clamp(1.9rem, 5vw, 2.9rem)/1.08 var(--serif);
         text-transform: uppercase;
-        color: var(--ac);
+        color: var(--ember);
         margin-bottom: 14px;
       }
       /* UNIVERSOS (solo decorativo): lomos de libros chiquitos. NO son botones, no llevan a ningún lado. */
@@ -272,7 +274,7 @@
         padding-top: 8px;
         padding-bottom: 8px;
       }
-      .sn {
+      .sn { /* subnav button */
         background: none;
         border: 0;
         border-bottom: 2px solid transparent;
@@ -443,7 +445,7 @@
         width: 100%;
       }
       .lkd {
-        color: var(--ac);
+        color: var(--links);
         font-size: 0.88rem;
       }
       /* TARJETA CHICA de la tienda (solo foto, nombre, precio y botón) y VENTANA DEL PRODUCTO (modal) con todo el detalle. */
@@ -808,7 +810,7 @@
       }
       .pr {
         font: 700 1.5rem var(--serif);
-        color: var(--ac);
+        color: var(--links);
         margin-top: auto;
       }
       .vacio {
@@ -1368,7 +1370,7 @@
       //    {n:"Remera Ejemplo",tipo:"remeras",d:"Descripción corta.",im:["fotos/ejemplo-1.jpg"],v:[UNI]},
       const P = [
         {
-          n: "Remeras Rock",
+          n: "Rock | Bandas clásicas",
           dis: true,
           im: ["img/ESTAMPAS/ROCK/VIEJASFLORAL.png","img/ESTAMPAS/ROCK/AC-DC Fly on the Wall.png","img/ESTAMPAS/ROCK/AUTOS.png", "img/ESTAMPAS/ROCK/AUTOS-AZUL-FTE.png", "img/ESTAMPAS/ROCK/RAMONESCOLOR.png"],
           tipo: "remeras",
@@ -1376,7 +1378,7 @@
           v: [UNI],
         },
         {
-          n: "Remeras Terror y Halloween",
+          n: "Terror | Horror",
           dis: true,
           im:  ["img/ESTAMPAS/TERROR/HalloweenCharacter (180).png", "img/ESTAMPAS/TERROR/HalloweenCharacter (238).png", "img/ESTAMPAS/TERROR/HalloweenCharacter (541).png"],
           tipo: "remeras",
@@ -1384,7 +1386,7 @@
           v: [UNI],
         },
         {
-          n: "Remeras Pop",
+          n: " Pop | Indie",
           dis: true,
           im: ["img/ESTAMPAS/POP/Thriller sarplex fondo.png",],
           tipo: "remeras",
@@ -1561,7 +1563,7 @@
               ? `<div class="cl" role="group" aria-label="Color">${v.c.map(([n, h]) => `<button type="button" class="sw" title="${n}" aria-label="${n}" data-n="${n}" style="background:${h}"></button>`).join("")}</div><small class="cn">Color: elegí uno</small>`
               : "") +
             (p.dis && !st
-              ? `<label>Diseño<input class="dsg" type="text" maxlength="120" placeholder="Elegí uno de los publicados o contame tu idea luego" value="${dv.replace(/"/g, "&quot;")}"></label><a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Ver más diseños en Instagram</a>`
+              ? `<label>Diseño<input class="dsg" type="text" maxlength="120" placeholder="Elegí uno de los publicados o contame tu idea luego" value="${dv.replace(/"/g, "&quot;")}"></label><a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Ver más en IG</a>`
               : "") +
             (v.nota ? `<small>${v.nota}</small>` : "") +
             (v.t
@@ -1735,7 +1737,7 @@
       function card(p, st) {
         const el = document.createElement("article");
         el.className = st ? "card stock" : "card";
-        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<span class="zm"><img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy"></span>`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3><button class="tit" type="button">${p.n}</button></h3><p>${p.d}</p>${p.dis && !st ? `<a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Ver más diseños en Instagram</a>` : ""}<div class="pr">${precioCard(p)}</div><button type="button" class="btn add">${p.v.some((v) => v.p) ? "Agregar al carrito" : "Consultar por Instagram"}</button></div>`;
+        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<span class="zm"><img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy"></span>`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3><button class="tit" type="button">${p.n}</button></h3><p>${p.d}</p>${p.dis && !st ? `<a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Instagram</a>` : ""}<div class="pr">${precioCard(p)}</div><button type="button" class="btn add">${p.v.some((v) => v.p) ? "Agregar al carrito" : "Consultar por Instagram"}</button></div>`;
         const car = el.querySelector(".car");
         el.querySelector(".pv").onclick = () =>
           car.scrollBy({ left: -car.clientWidth, behavior: "smooth" });
