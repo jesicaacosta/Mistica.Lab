@@ -13,7 +13,7 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Místicalab: remeras, buzos y camperas personalizadas del S al 7XL. Rock, pop, fútbol, cine, series y cultura pop. CABA, envíos a todo el país."
+      content="Místicalab: remeras, buzos y camperas personalizadas del S al 7XL. Rock, pop, fútbol, cine, series y cultura pop. ZONA OESTE, envíos a todo el país."
     />
     <!-- VISTA PREVIA AL COMPARTIR EL LINK (WhatsApp, Instagram, etc.).
          IMPORTANTE: og:image necesita la dirección COMPLETA de la imagen compartir.png ya subida a tu hosting.
@@ -24,7 +24,7 @@
       property="og:description"
       content="Remeras, buzos y camperas personalizadas del S al 7XL. Hacé tu pedido o pedinos tu diseño."
     />
-    <meta property="og:image" content="https://TU-DOMINIO.com/compartir.png" />
+    <meta property="og:image" content="https://misticalab.netlify.app/compartir.png" /> 
     <meta name="twitter:card" content="summary_large_image" />
     <!-- ============ INTERRUPTOR DE MANTENIMIENTO ============
      true  = la web muestra SOLO el cartel de mantenimiento.
@@ -40,6 +40,8 @@
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
     <style>
       /* COLORES Y FUENTES de la marca.  
    LOGO: los dos archivos tienen que estar en la MISMA CARPETA que este html. */
@@ -61,7 +63,7 @@
         --logo-d: url("logo-claro.png");
         --logo: var(--logo-d);
         --logo-rojo: url("logo-rojo.png");
-        --serif: "Oswald", "Arial Narrow", Impact, sans-serif;
+        --serif: "Inter", "Arial Narrow", Impact, sans-serif;
         --sans: "Barlow", "Helvetica Neue", Arial, sans-serif;
         color-scheme: dark;
         box-sizing: border-box;
@@ -107,7 +109,7 @@
         color: var(--ember);
       }
       a {
-        color: var(--dorado);
+        color: var(--ember);
         font-weight: 600;
       }
       p {
@@ -394,8 +396,8 @@
       }
       .faq summary {
         cursor: pointer;
-        font: 700 1.15rem var(--serif);
-        color: var(--ac);
+        font: 400 1.15rem var(--serif);
+        color: var(--ember);
         list-style: none;
         display: flex;
         justify-content: space-between;
