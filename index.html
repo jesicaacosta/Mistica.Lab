@@ -44,7 +44,7 @@
       /* COLORES Y FUENTES de la marca.  
    LOGO: los dos archivos tienen que estar en la MISMA CARPETA que este html. */
       :root {
-        --ember: ##D62828;
+        --ember: #D62828;
         --bone: #f2efe9;
         --grafito: #262626;
         --rojo: #c4251d;
@@ -514,6 +514,44 @@
           padding: 28px 24px;
         }
       }
+      /* COMPARTIR: barra debajo del detalle del producto */
+      .shr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 24px 20px;
+        border-top: 1px solid var(--linea);
+      }
+      .shr b { font: 600 0.95rem var(--sans); margin-right: 4px; }
+      .shr .btn { padding: 8px 16px; font-size: 0.92rem; }
+      .shr small { flex-basis: 100%; min-height: 1.2em; color: var(--ac); }
+      /* ICONOS redondos de compartir */
+      .shr .ic {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        color: #fff;
+      }
+      .shr .ic svg { width: 22px; height: 22px; }
+      .shr .ic.wa { background: #25d366; }
+      .shr .ic.ig { background: linear-gradient(45deg, #f9a03f, #dd2a7b 55%, #8134af); }
+      .shr .ic.cp { background: var(--ac); }
+      .shr .ic.nat { background: #3a3a3a; }
+      .shr .ic:hover { filter: brightness(1.12); }
+      /* ZOOM de fotos: marco que recorta la foto; al pasar el mouse se agranda siguiendo el cursor (solo en compu) */
+      .zm { flex: none; width: 100%; overflow: hidden; display: block; scroll-snap-align: center; }
+      .zm img { display: block; transition: transform 0.15s ease-out; }
+      @media (hover: hover) {
+        .zm:hover img { transform: scale(2); cursor: zoom-in; }
+      }
+      /* IMAGEN de la portada */
+      .heroart { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
       /* SERVICIOS y CONTACTO: paneles de texto dentro de la tienda (sin carrito). */
       .svc {
         background: var(--card);
@@ -695,8 +733,8 @@
 }
 
       /* Si el producto tiene una sola foto, se esconden las flechas del carrusel */
-      .car:has(img:only-child) ~ .pv,
-      .car:has(img:only-child) ~ .nx {
+      .car:has(.zm:only-child) ~ .pv,
+      .car:has(.zm:only-child) ~ .nx {
         display: none;
       }
 
@@ -1026,8 +1064,7 @@
         </div>
         <!-- -->
         <div id="colecciones">
-          <h2 style="font-size: 1.15rem; margin: 0 0 10px">Fandoms</h2>
-          <ul class="pila" id="pila"></ul>
+          <img class="heroart" src="hero-mistica.png" alt="Prendas Místicalab: remeras, buzos y camperas del S al 7XL" />
         </div>
 
 
@@ -1476,11 +1513,12 @@
       }
       // Si una foto no existe (todavía no la subiste), se saca del carrusel. Si no queda ninguna, se muestra una imagen de ejemplo.
       function noFoto(img) {
-        const c = img.parentNode,
+        const z = img.closest(".zm"),
+          c = z.parentNode,
           n = img.dataset.n;
-        img.remove();
+        z.remove();
         if (!c.children.length)
-          c.innerHTML = `<img src="${ph(0, n)}" alt="${n}">`;
+          c.innerHTML = `<span class="zm"><img src="${ph(0, n)}" alt="${n}"></span>`;
       }
       // 10) TARJETA DE PRODUCTO: carrusel, descripción, selectores de modelo/talle/color, precio y botón.
       //     Valida que elijan talle y color antes de agregar. Si la variante no tiene precio, el botón lleva a Instagram.
@@ -1493,7 +1531,7 @@
           sz = "",
           co = "",
           dv = ""; // diseño que escribió la clienta (solo productos con dis: true)
-        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy">`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3>${p.n}</h3><p>${p.d}</p><div class="opt"></div></div>`;
+        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<span class="zm"><img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy"></span>`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3>${p.n}</h3><p>${p.d}</p><div class="opt"></div></div>`;
         const car = el.querySelector(".car"),
           o = el.querySelector(".opt");
         el.querySelector(".pv").onclick = () =>
@@ -1609,14 +1647,95 @@
         const v0 = p.v[0];
         return !!(p.dis && !st) || p.v.length > 1 || (!st && !!(v0.s || v0.c));
       };
-      function abrirModal(p, st) {
-        $("#pmc").replaceChildren(detalle(p, st));
-        $("#pm").showModal();
+      // COMPARTIR: cada FOTO tiene su link: tudominio.com/?producto=nombre-del-producto&foto=2
+      const slug = (n) =>
+        n.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const baseUrl = () => location.href.split(/[?#]/)[0];
+      const linkProducto = (p, st, ft) =>
+        baseUrl() + "?" + (st ? "stock" : "producto") + "=" + slug(p.n) + (ft > 0 ? "&foto=" + ft : "");
+      // Foto que se está viendo en la ventana del producto (1, 2, 3...) y cuántas hay
+      const fotoActual = () => {
+        const c = document.querySelector("#pm .car");
+        if (!c) return { n: 1, i: 1 };
+        return { n: c.children.length, i: Math.round(c.scrollLeft / (c.clientWidth || 1)) + 1 };
+      };
+      const linkActual = (p, st) => {
+        const f = fotoActual();
+        return linkProducto(p, st, f.n > 1 ? f.i : 0);
+      };
+      const quitarLink = () => { try { history.replaceState(null, "", baseUrl()); } catch (e) {} };
+      async function copiar(txt) {
+        try { await navigator.clipboard.writeText(txt); return true; }
+        catch (e) {
+          const t = document.createElement("textarea");
+          t.value = txt; document.body.appendChild(t); t.select();
+          let ok = false;
+          try { ok = document.execCommand("copy"); } catch (e2) {}
+          t.remove(); return ok;
+        }
       }
+      const ICO = {
+        wa: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
+        ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        cp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>',
+        nat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+      };
+      function barraCompartir(p, st) {
+        const msg = "¡Mirá lo que encontré en Místicalab! " + p.n;
+        const bar = document.createElement("div");
+        bar.className = "shr";
+        const ib = (a, t) => `<button type="button" class="ic ${a}" data-a="${a}" title="${t}" aria-label="${t}">${ICO[a]}</button>`;
+        bar.innerHTML = `<b>Compartir</b>${navigator.share ? ib("nat", "Compartir con otras apps") : ""}${ib("wa", "Compartir por WhatsApp")}${ib("ig", "Compartir en Instagram")}${ib("cp", "Copiar link")}<small role="status"></small>`;
+        const say = (t) => { bar.querySelector("small").textContent = t; };
+        bar.onclick = async (e) => {
+          const a = e.target.closest("[data-a]")?.dataset.a;
+          if (!a) return;
+          const url = linkActual(p, st); // el link lleva la foto que se está viendo
+          if (a == "nat") {
+            try { await navigator.share({ title: p.n, text: msg, url }); } catch (e2) {}
+          } else if (a == "wa") {
+            window.open("https://wa.me/?text=" + encodeURIComponent(msg + "\n" + url), "_blank", "noopener");
+          } else if (a == "cp") {
+            say((await copiar(url)) ? "¡Link copiado!" : "No se pudo copiar. Copialo desde la barra del navegador.");
+          } else if (a == "ig") {
+            const ok = await copiar(url);
+            say(ok ? "Link copiado. Pegalo en un mensaje o historia de Instagram." : "Copiá el link de la barra del navegador y pegalo en Instagram.");
+            window.open("https://www.instagram.com/direct/inbox/", "_blank", "noopener");
+          }
+        };
+        return bar;
+      }
+      // ft = número de foto a mostrar (1, 2, 3...). Mientras se desliza el carrusel, el link de la barra se actualiza.
+      function abrirModal(p, st, ft = 1) {
+        $("#pmc").replaceChildren(detalle(p, st), barraCompartir(p, st));
+        $("#pm").showModal();
+        const car = $("#pm .car");
+        if (ft > 1 && car) {
+          car.style.scrollBehavior = "auto";
+          car.scrollLeft = (ft - 1) * car.clientWidth;
+          car.style.scrollBehavior = "";
+        }
+        try { history.replaceState(null, "", linkActual(p, st)); } catch (e) {}
+        let t;
+        car &&
+          car.addEventListener("scroll", () => {
+            clearTimeout(t);
+            t = setTimeout(() => { try { history.replaceState(null, "", linkActual(p, st)); } catch (e) {} }, 150);
+          });
+      }
+      $("#pm").addEventListener("close", quitarLink);
+      // ZOOM: la foto se agranda desde el punto donde está el mouse
+      document.addEventListener("mousemove", (e) => {
+        const z = e.target.closest && e.target.closest(".zm");
+        if (!z) return;
+        const r = z.getBoundingClientRect();
+        z.firstElementChild.style.transformOrigin = ((e.clientX - r.left) / r.width) * 100 + "% " + ((e.clientY - r.top) / r.height) * 100 + "%";
+      });
       function card(p, st) {
         const el = document.createElement("article");
         el.className = st ? "card stock" : "card";
-        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy">`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3><button class="tit" type="button">${p.n}</button></h3><p>${p.d}</p>${p.dis && !st ? `<a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Ver más diseños en Instagram</a>` : ""}<div class="pr">${precioCard(p)}</div><button type="button" class="btn add">${p.v.some((v) => v.p) ? "Agregar al carrito" : "Consultar por Instagram"}</button></div>`;
+        el.innerHTML = `<div class="cw">${st ? '<span class="badge">Listo para retirar</span>' : ""}<div class="car">${(p.im || [ph(0, p.n), ph(1, p.n), ph(2, p.n)]).map((s, i) => `<span class="zm"><img src="${s}" alt="${p.n}, foto ${i + 1}" data-n="${p.n}" onerror="noFoto(this)" loading="lazy"></span>`).join("")}</div><button class="pv" type="button" aria-label="Foto anterior">‹</button><button class="nx" type="button" aria-label="Foto siguiente">›</button></div><div class="b"><h3><button class="tit" type="button">${p.n}</button></h3><p>${p.d}</p>${p.dis && !st ? `<a class="lkd" href="${p.redes || IG}" target="_blank" rel="noopener">Ver más diseños en Instagram</a>` : ""}<div class="pr">${precioCard(p)}</div><button type="button" class="btn add">${p.v.some((v) => v.p) ? "Agregar al carrito" : "Consultar por Instagram"}</button></div>`;
         const car = el.querySelector(".car");
         el.querySelector(".pv").onclick = () =>
           car.scrollBy({ left: -car.clientWidth, behavior: "smooth" });
@@ -1736,9 +1855,7 @@
         cerrarMenu();
         $("#tienda").scrollIntoView();
       };
-      $("#pila").innerHTML = TAGS.map(
-        (t, i) => `<li><span class="t${i}">${t}</span></li>`,
-      ).join("");
+      
       // 12b) ENVÍOS, PAGOS Y PREGUNTAS FRECUENTES. Editá los textos libremente (revisalos: son una base general).
       //      ENVIOS = las 3 tarjetas de arriba.   FAQ = preguntas desplegables. Para sumar una pregunta, copiá un bloque { q, a }.
       const ENVIOS = [
@@ -1797,6 +1914,14 @@
       }
       show("");
       paint();
+      // LINK COMPARTIDO: si entran con ?producto=..., se abre directo ese producto
+      {
+        const q = new URLSearchParams(location.search),
+          sp = q.get("producto"),
+          ss = q.get("stock");
+        const f = sp ? P.find((x) => slug(x.n) == sp) : ss ? STOCK.find((x) => slug(x.n) == ss) : null;
+        if (f) abrirModal(f, !sp, parseInt(q.get("foto")) || 1);
+      }
     </script>
   </body>
 </html>
