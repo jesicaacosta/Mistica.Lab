@@ -6,23 +6,23 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>Místicalab · Llevá puesto lo que te representa</title>
+    <title>Mistica · Llevá puesto lo que te representa</title>
     <!-- FAVICON (iconito de la pestaña) y color de la barra del celular. Archivo: favicon.png en la misma carpeta. -->
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#262721" />
     <meta
       name="description"
-      content="Místicalab: remeras, buzos y camperas personalizadas del S al 7XL. Rock, pop, fútbol, cine, series y cultura pop. ZONA OESTE, envíos a todo el país."
+      content="Mistica: remeras, buzos, baby tees y tote bags personalizadas para emprendimientos, egresados, comunidades y fans. ZONA OESTE, envíos a todo el país."
     />
     <!-- VISTA PREVIA AL COMPARTIR EL LINK (WhatsApp, Instagram, etc.).
          IMPORTANTE: og:image necesita la dirección COMPLETA de la imagen compartir.png ya subida a tu hosting.
          Cuando tengas tu dominio, reemplazá TU-DOMINIO.com por el real (ej: https://misticalab.com.ar/compartir.png). -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Místicalab · Llevá puesto lo que te representa" />
+    <meta property="og:title" content="Mistica · Llevá puesto lo que te representa" />
     <meta
       property="og:description"
-      content="Remeras, buzos y camperas personalizadas del S al 7XL. Hacé tu pedido o pedinos tu diseño."
+      content="Prendas y objetos personalizados para marcas, grupos, comunidades y fans. Hacé tu pedido o pedinos tu diseño."
     />
     <meta property="og:image" content="https://misticalab.netlify.app/compartir.png" /> 
     <meta name="twitter:card" content="summary_large_image" />
@@ -37,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -46,26 +46,26 @@
       /* COLORES Y FUENTES de la marca.  
    LOGO: los dos archivos tienen que estar en la MISMA CARPETA que este html. */
       :root {
-        --ember: #EFE5D2;
-        --bone: #f2efe9;
-        --grafito: #262626;
-        --rojo: #f19692;
-        --dorado: #C28D39;
-        --bg: #000000;
-        --fg: #f2efe9;
-        --ac: #D62828;
-        --links: #C28D39;
+        /* PALETA MISTICA (sacada del branding) */
+        --negro: #262721;
+        --dorado: #D5A95B;
+        --rojo: #DB2A2F;
+        --crema: #DAD1CF;
+        --ember: #262721;
+        --bone: #DAD1CF;
+        --grafito: #262721;
+        --bg: #FBFAF8;
+        --fg: #262721;
+        --ac: #262721;
+        --links: #8F6A22;
         --oscuros: #362822;
-        --su: #0e0e0e;
-        --card: #131313;
-        --linea: #2b2b2b;
-        --logo-l: url("logo.png");
-        --logo-d: url("logo-claro.png");
-        --logo: var(--logo-d);
-        --logo-rojo: url("logo-rojo.png");
-        --serif: "Inter", "Arial Narrow", Impact, sans-serif;
-        --sans: "Barlow", "Helvetica Neue", Arial, sans-serif;
-        color-scheme: dark;
+        --su: #F2EEEB;
+        --card: #FFFFFF;
+        --linea: #E6DFDB;
+        --logo-rojo: url("logo.png");
+        --serif: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+        --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+        color-scheme: light;
         box-sizing: border-box;
         padding-top: env(safe-area-inset-top, 0px);
         padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -987,12 +987,58 @@
       .mant body > *:not(#mant) {
         display: none !important;
       }
+
+      /* =========== TEMA MISTICA (claro y limpio) · rojo solo en detalles =========== */
+      h1, h2, h3 { letter-spacing: -0.01em; }
+      h2 { text-transform: none; font-weight: 600; }
+      nav .logo { height: 48px; aspect-ratio: 444 / 339; }
+      #mant .logo { width: min(200px, 55vw); aspect-ratio: 444 / 339; }
+      #cn { background: var(--rojo); color: #fff; }
+      .sn[aria-pressed="true"] { border-bottom-color: var(--rojo); color: var(--fg); }
+      .sn:hover { color: var(--fg); }
+      .pr { color: var(--fg); }
+      .er { color: #b3261e; }
+      .sw { border-color: rgba(0, 0, 0, 0.28); }
+      .cw > button { background: rgba(255, 255, 255, 0.92); color: var(--negro); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+      .card { border: 1px solid var(--linea); box-shadow: none; border-radius: 10px; }
+      .svc { border: 1px solid var(--linea); box-shadow: none; border-radius: 10px; }
+      .badge { background: var(--rojo); color: #fff; }
+      .card.stock { outline-color: var(--dorado); box-shadow: none; }
+      .pasos li::before { background: none; color: var(--negro); border: 1.5px solid var(--negro); }
+      .alt { background: var(--su); }
+      /* PORTADA */
+      .hero { padding: clamp(32px, 6vw, 72px) 0; }
+      .hero .w { grid-template-columns: 1.1fr 0.9fr; }
+      @media (max-width: 860px) { .hero .w { grid-template-columns: 1fr; } }
+      .hero h1 {
+        font: 700 clamp(2.1rem, 5.6vw, 3.6rem)/1.08 var(--serif);
+        color: var(--negro);
+        margin-bottom: 18px;
+      }
+      .hero h1 i { font-style: normal; border-bottom: 4px solid var(--rojo); }
+      .hero p { font-size: 1.1rem; }
+      .hero .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+      .heroart { border-radius: 14px; }
+      /* QUÉ HACEMOS */
+      .para-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+      @media (max-width: 700px) { .para-grid { grid-template-columns: 1fr; } }
+      .para-grid .svc { padding: 26px; gap: 12px; }
+      .para-grid .svc a.ln { color: var(--negro); border-bottom: 2px solid var(--rojo); text-decoration: none; font-size: 0.95rem; margin-top: 4px; }
+      /* PIE oscuro con la paleta de la marca */
+      footer { background: var(--negro); color: var(--crema); border-top: 0; }
+      footer .w { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
+      @media (max-width: 760px) { footer .w { grid-template-columns: 1fr; } }
+      footer .pie { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.16); margin-top: 20px; }
+      footer h2 { color: #fff; }
+      footer p { color: var(--crema); }
+      footer .btn { background: var(--dorado); color: var(--negro); border-color: var(--dorado); }
+      footer .flogo { width: min(300px, 70vw); border-radius: 8px; display: block; }
     </style>
   </head>
   <body>
     <!-- CARTEL DE MANTENIMIENTO: editá los textos si querés. Solo se ve cuando MANTENIMIENTO = true (arriba, en el <head>). -->
     <div id="mant">
-      <span class="logo" role="img" aria-label="Místicalab"></span>
+      <span class="logo" role="img" aria-label="Mistica"></span>
       <h1>Estamos en mantenimiento</h1>
       <p>
         Estamos renovando la tienda para que sea mejor. Mientras tanto,
@@ -1005,21 +1051,21 @@
         rel="noopener"
         >Escribinos por Instagram</a
       >
-      <p style="font-size: 0.9rem">Prendas personalizadas del S al 7XL.</p>
+      <p style="font-size: 0.9rem">Prendas personalizadas: remeras del S al 6XL y buzos del S al 7XL.</p>
     </div>
 
     <!-- BARRA SUPERIOR: logo (vuelve al inicio) + links + botón Carrito. Los links apuntan a los id de abajo. -->
     <nav>
       <div class="w">
-        <a href="#top" aria-label="Místicalab"
+        <a href="#top" aria-label="Mistica"
           ><span
             class="logo"
             role="img"
-            aria-label="Místicalab"
+            aria-label="Mistica"
           ></span
         ></a>
         <ul>
-          <li class="h"><a href="#colecciones">Colecciones</a></li>
+          <li class="h"><a href="#para">Qué hacemos</a></li>
           <li class="h" id="navstock" hidden><a href="#stock">En stock</a></li>
           <li class="h"><a href="#tienda">Tienda</a></li>
           <li class="h"><a href="#como">Cómo pedir</a></li>
@@ -1053,28 +1099,54 @@
     <header class="hero" id="top">
       <div class="w">
         <div>
-          <span
-            class="logo"
-            role="img"
-            aria-label="Místicalab"
-          ></span>
-          <p class="lema">Llevá puesto lo que te representa.</p>
+          <h1>Llevá puesto <i>lo que te representa.</i></h1>
           <p>
-            Remeras, buzos y camperas con tus bandas, películas, series y
-            equipos del alma. Del S al 7XL, hechas a pedido y con diseños de
-            fandoms que no vas a encontrar en cualquier lado.
+            Remeras, buzos, baby tees y tote bags personalizadas para tu
+            emprendimiento, tu promo, tu comunidad o tu fandom. Diseñamos,
+            estampamos y te lo entregamos listo.
           </p>
-          <a class="btn" href="#tienda">Ver la tienda</a>
+          <div class="btns">
+            <a class="btn" href="#tienda">Ver la tienda</a>
+            <a class="btn o" href="https://www.instagram.com/misticalab_" target="_blank" rel="noopener">Pedir presupuesto</a>
+          </div>
         </div>
-        <!-- -->
-        <div id="colecciones">
-          <img class="heroart" src="hero-mistica.png" alt="Prendas Místicalab: remeras, buzos y camperas del S al 7XL" />
+        <div>
+          <img class="heroart" src="logo-oscuro.png" alt="Mistica · Llevá puesto lo que te representa" />
         </div>
-
-
-
       </div>
     </header>
+
+    <!-- QUÉ HACEMOS: para quién trabajamos. Editá los textos libremente. -->
+    <section class="alt" id="para">
+      <div class="w">
+        <h2>Hacemos prendas para lo que te representa</h2>
+        <p style="margin-top: 12px">
+          Desde una remera para vos hasta pedidos por cantidad para tu marca, tu grupo o tu comunidad.
+        </p>
+        <div class="para-grid">
+          <div class="svc">
+            <h3>Emprendimientos y marcas</h3>
+            <p>Remeras, buzos y tote bags con tu logo: para tu equipo, tus clientes o para vender como merch.</p>
+            <a class="ln" href="https://www.instagram.com/misticalab_" target="_blank" rel="noopener">Pedir presupuesto</a>
+          </div>
+          <div class="svc">
+            <h3>Egresados y grupos</h3>
+            <p>Prendas de promo, cursos, viajes y equipos. Precios por cantidad y todos los talles.</p>
+            <a class="ln" href="https://www.instagram.com/misticalab_" target="_blank" rel="noopener">Pedir presupuesto</a>
+          </div>
+          <div class="svc">
+            <h3>Iglesias y comunidades</h3>
+            <p>Prendas para retiros, encuentros, ministerios y eventos, con el diseño que los identifica.</p>
+            <a class="ln" href="https://www.instagram.com/misticalab_" target="_blank" rel="noopener">Pedir presupuesto</a>
+          </div>
+          <div class="svc">
+            <h3>Fans y lectores</h3>
+            <p>Rock, libros, series, fútbol y cultura pop. Diseños propios y remeras literarias de corte mujer.</p>
+            <a class="ln" href="#tienda">Ver la tienda</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- EN STOCK: productos que ya tenés hechos. Se llena sola desde la lista STOCK del script (sección 7b)
          y se OCULTA sola (junto con su link del menú) si esa lista está vacía. Editá los textos si querés. -->
@@ -1090,11 +1162,11 @@
     </section>
 
     <!-- TIENDA. Las tarjetas se generan solas desde la lista de productos P del script. Para agregar/quitar productos NO tocás este HTML. -->
-    <section class="alt" id="tienda">
+    <section id="tienda">
       <div class="w">
         <h2>Tienda</h2>
         <h3 style="margin-top: 14px; color: var(--fg)">
-          Recordá que también podés enviarnos tu diseño. Todos los diseños pueden ir en cualquier prenda (ejemplo: ¿te gustó un diseño de una remera para buzo? Se hace!).
+          También podés enviarnos tu logo o tu diseño. Cualquier diseño puede ir en cualquier prenda (¿te gustó el de una remera para un buzo? Se hace).
         </h3>
         <p style="margin-top: 12px">
           Armá tu pedido y pagalo por transferencia. Los pagos no se hacen en
@@ -1119,14 +1191,14 @@
     </section>
 
     <!-- CÓMO PEDIR: 3 pasos. Editá los textos libremente. -->
-    <section id="como">
+    <section class="alt" id="como">
       <div class="w">
         <h2>¿Cómo pedir una prenda personalizada?</h2>
         <ol class="pasos">
           <li>
             <h3>Enviame tu idea</h3>
             <p>
-              Una banda, una peli, una serie, un jugador, una frase o una foto de referencia.
+              Tu logo, una frase, una banda, un libro, el nombre de tu grupo o una foto de referencia. Si es por cantidad, contanos cuántas prendas.
             </p>
           </li>
           <li>
@@ -1147,7 +1219,7 @@
     </section>
 
     <!-- ENVÍOS, PAGOS Y PREGUNTAS FRECUENTES. Los textos están en el script (listas ENVIOS y FAQ): editalos ahí. -->
-    <section class="alt" id="info">
+    <section id="info">
       <div class="w">
         <h2>Envíos, pagos y preguntas</h2>
         <div class="info-cards" id="envios"></div>
@@ -1158,20 +1230,15 @@
     <!-- PIE: llamado final + botón a Instagram.  -->
     <footer>
       <div class="w">
-        <h2>¿Cuál es tu fandom?</h2>
-        <p style="margin: 14px 0 24px">
-          Escribinos y lo ponemos en una prenda para que lo lleves puesto.
-        </p>
-        <a
-          class="btn"
-          href="https://www.instagram.com/misticalab_"
-          target="_blank"
-          rel="noopener"
-          >Escribinos por Instagram</a
-        >
-        <p class="pie">
-          Místicalab · Prendas personalizadas · ZONA OESTE · Envíos a todo el país
-        </p>
+        <div>
+          <h2>¿Qué querés llevar puesto?</h2>
+          <p style="margin: 14px 0 24px">
+            Contanos tu idea, tu marca o tu grupo y lo convertimos en prenda.
+          </p>
+          <a class="btn" href="https://www.instagram.com/misticalab_" target="_blank" rel="noopener">Escribinos por Instagram</a>
+        </div>
+        <img class="flogo" src="logo-oscuro.png" alt="Mistica" />
+        <p class="pie">Mistica · Prendas personalizadas · ZONA OESTE · Envíos a todo el país</p>
       </div>
     </footer>
 
@@ -1271,25 +1338,18 @@
         $ = (s) => document.querySelector(s);
       // 3) UNIVERSOS (solo decorativos): son los lomos de libros de la portada. NO filtran nada ni son botones.
       //    Para agregar uno: sumá el nombre acá Y un color nuevo .t8 en el CSS. El orden define el color de cada lomo.
-      const TAGS = [
-        "Rock",
-        "Pop e indie",
-        "Fútbol",
-        "Cine",
-        "Series",
-        "Gaming retro",
-        "Cultura pop",
-        "Tu fandom",
-      ];
+      const TAGS = []; // (ya no se usa)
       // 3b) TIPOS DE PRODUCTO: son los botones de filtro de la tienda. Cada producto elige uno con  tipo:"id".
       //     id = palabra clave (la que va en tipo:)   t = texto del botón   d = frase corta que se ve al elegirlo (opcional)
       //     Para agregar un tipo nuevo: sumá una línea acá y usá su id en los productos. El orden es el de los botones.
       //     "servicios" y "contacto" son especiales: no muestran productos sino un panel de texto (ver SERVICIOS más abajo).
       const IG = "https://www.instagram.com/misticalab_";
       const TIPOS = [
-        { id: "remeras", t: "Remeras", d: "Remeras personalizadas del S al 7XL." },
-        { id: "buzos", t: "Buzos", d: "Buzos canguro y cuello redondo, del S al 7XL." },
-        { id: "camperas", t: "Camperas", d: "Camperas personalizadas, del S al 7XL." },
+        { id: "remeras", t: "Remeras", d: "Remeras personalizadas, del S al 6XL. Negro, blanco, crema, rojo y azul marino." },
+        { id: "literarias", t: "Remeras literarias", d: "Remeras de corte mujer para lectoras y lectores con alma de libro." },
+        { id: "babytee", t: "Baby Tee", d: "Musculosa baby tee de algodón 100%." },
+        { id: "buzos", t: "Buzos", d: "Buzos canguro en blanco, negro o gris melange." },
+        { id: "totes", t: "Tote bags", d: "Tote bags personalizadas con tu diseño o tu logo." },
         { id: "servicios", t: "Servicios" },
         { id: "contacto", t: "Contacto" },
       ];
@@ -1312,21 +1372,24 @@
       ];
       // 4) COLORES DISPONIBLES. ["Nombre","#hex"]. C6 = buzos y camperas, C16 = remeras 24.1 unisex.
       //    Para una paleta nueva: const MIS=[["Rojo","#D62828"],...] y usala como c:MIS en el producto.
-      const C6 = [
+      // REMERAS (y baby tee / literarias): negro, blanco, crema, rojo y azul marino.
+      const CREM = [
         ["Negro", "#1A1A1A"],
         ["Blanco", "#FFFFFF"],
-        ["Gris melange", "#B9B9B9"],
-        ["Azul marino", "#14213D"],
-        ["Azul francia", "#2F6FD0"],
+        ["Crema", "#EFE6D2"],
         ["Rojo", "#D62828"],
+        ["Azul marino", "#14213D"],
       ];
-      const C16 = [
-        ["Negro", "#151515"],
+      // BUZOS: solo blanco, negro o gris melange.
+      const CBUZ = [
         ["Blanco", "#FFFFFF"],
-        ["Crudo", "#F1EBDD"],
-        ["Azul noche", "#12213A"],
-        ["Bordó", "#7B1426"],
-        ["Marrón", "#5A3425"],
+        ["Negro", "#1A1A1A"],
+        ["Gris melange", "#B9B9B9"],
+      ];
+      // TOTE BAGS: crudo o negro (ajustalo a lo que tengas).
+      const CTOTE = [
+        ["Crudo", "#EDE3CF"],
+        ["Negro", "#1A1A1A"],
       ];
       // 5) TABLAS DE TALLES (cm). l = largo, a = ancho, de talle 1 al 5. Se usan con t:"uni" / "muj" / "buzo" en una variante.
       //    Para otra tabla: sumá una clave nueva (ej. nino:{t:"Título",l:[...],a:[...],n:"nota"}).
@@ -1336,17 +1399,19 @@
       };
       // 6) VARIANTES REUTILIZABLES (se usan en varios productos). Una variante es un modelo/tamaño con su propio precio:
       //    n = nombre visible | p = precio (sin p = "A consultar") | s = talles | c = colores | t = tabla de talles | nota = aviso
-      const TALLES = ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL", "6XL", "7XL"];
+      const TALLES = ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL", "6XL", "7XL"]; // buzos (S al 7XL)
+      const TALLES_REM = ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL", "6XL"]; // remeras (S al 6XL)
+      const TALLES_MUJ = ["S", "M", "L", "XL", "XXL"]; // baby tee y remera literaria (corte mujer)
       const UNI = {
-        // remera unisex 24.1, S a 7XL
+        // remera unisex 24.1, S al 6XL
         n: "Unisex",
         p: 25000,
-        s: TALLES,
-        c: C16,
+        s: TALLES_REM,
+        c: CREM,
       };
-      // Buzos y camperas: talles S–XL con 6 colores. bz(nombre, precio, tablaOpcional) arma la variante.
+      // Buzos: bz(nombre, precio, tablaOpcional) arma la variante.
       const SX = TALLES,
-        bz = (n, p, t) => ({ n, p, s: SX, c: C6, t });
+        bz = (n, p, t) => ({ n, p, s: SX, c: CBUZ, t });
       // FOTOS DE PRODUCTOS (el carrusel de cada tarjeta):
       //  1. Creá una carpeta llamada  fotos  al lado de este index.html.
       //  2. Guardá ahí las fotos con el nombre del producto + número:  remera-jane-austen-1.jpg, remera-jane-austen-2.jpg ...
@@ -1372,6 +1437,38 @@
       //    {n:"Remera Ejemplo",tipo:"remeras",d:"Descripción corta.",im:["fotos/ejemplo-1.jpg"],v:[UNI]},
       const P = [
         {
+          n: "Remera personalizada | Tu logo o tu diseño",
+          dis: true,
+          im: fotos("remera-personalizada"),
+          tipo: "remeras",
+          d: "Remera de algodón peinado 24.1 con tu logo o tu diseño. Para emprendimientos, egresados, grupos y comunidades. Pedidos por cantidad: consultá.",
+          v: [UNI],
+        },
+        {
+          n: "Remeras literarias | Corte mujer",
+          dis: true,
+          im: fotos("remera-literaria"),
+          tipo: "literarias",
+          d: "Remeras de corte mujer con frases, personajes y mundos de tus libros favoritos. Elegí tu lectura o pedinos tu diseño.",
+          v: [{ n: "Corte mujer", s: TALLES_MUJ, c: CREM }], // agregá  p: 00000  para mostrar precio
+        },
+        {
+          n: "Musculosa Baby Tee",
+          dis: true,
+          im: fotos("baby-tee"),
+          tipo: "babytee",
+          d: "Musculosa baby tee de algodón 100%, corte ajustado. Con el diseño que quieras.",
+          v: [{ n: "Baby Tee", s: TALLES_MUJ, c: CREM }], // agregá  p: 00000  para mostrar precio
+        },
+        {
+          n: "Tote bag personalizada",
+          dis: true,
+          im: fotos("tote-bag"),
+          tipo: "totes",
+          d: "Tote bag con tu diseño, tu logo o tu frase. Ideal para marcas, eventos y regalos.",
+          v: [{ n: "Tote bag", c: CTOTE }], // agregá  p: 00000  para mostrar precio
+        },
+        {
           n: "Rock | Bandas clásicas",
           dis: true,
           im: ["img/ESTAMPAS/ROCK/VIEJASFLORAL.png","img/ESTAMPAS/ROCK/AC-DC Fly on the Wall.png","img/ESTAMPAS/ROCK/AUTOS.png", "img/ESTAMPAS/ROCK/AUTOS-AZUL-FTE.png", "img/ESTAMPAS/ROCK/RAMONESCOLOR.png"],
@@ -1384,15 +1481,15 @@
           dis: true,
           im:  ["img/ESTAMPAS/TERROR/HalloweenCharacter (180).png", "img/ESTAMPAS/TERROR/HalloweenCharacter (238).png", "img/ESTAMPAS/TERROR/HalloweenCharacter (541).png"],
           tipo: "remeras",
-          d: "Remera de algodón peinado 24.1 con tus artistas favoritos del pop y el indie.",
+          d: "Remera de algodón peinado 24.1 con tus películas de terror favoritas.",
           v: [UNI],
         },
         {
-          n: " Pop | Indie",
+          n: "Pop | Indie",
           dis: true,
           im: ["img/ESTAMPAS/POP/Thriller sarplex fondo.png",],
           tipo: "remeras",
-          d: "Remera de algodón peinado 24.1 con tus ídolos y tu equipo del alma.",
+          d: "Remera de algodón peinado 24.1 con tus artistas favoritos del pop y el indie.",
           v: [UNI],
         },
         {
@@ -1412,11 +1509,11 @@
           v: [UNI],
         },
         {
-          n: "Buzo canguro, diseño personalizado",
+          n: "Buzo canguro | Tu logo o tu diseño",
           dis: true,
           im: ["img/ESTAMPAS/ROCK/Indio_Solari_pla.png"],
           tipo: "buzos",
-          d: "Buzo canguro de friza clásica con el diseño que pidas. Contanos tu idea y la armamos. Imagen de referencia: el diseño se hace a pedido y puede variar según tu idea.",
+          d: "Buzo canguro de friza clásica en blanco, negro o gris melange, con el diseño que pidas. Contanos tu idea y la armamos. Imagen de referencia: el diseño se hace a pedido.",
           v: [bz("Unisex", 45000)],
         }, /*
         {
@@ -1433,11 +1530,11 @@
       // Ejemplo: { n:"Remera Ejemplo", im:["img/stock/ejemplo.jpg"], d:"Última unidad, lista para enviar.", v:[{ n:"Unisex", p:25000, s:"L", c:"Negro" }] }
       // 8) FOTOS DE EJEMPLO: genera una imagen provisoria. Se usa solo si el producto no tiene im:[...].
       function ph(i, n) {
-        const h = [350, 20, 150, 40][i % 4];
+        const t = String(n).replace(/&/g, "&amp;").replace(/</g, "&lt;");
         return (
           "data:image/svg+xml," +
           encodeURIComponent(
-            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='hsl(${h} 20% ${i % 2 ? 9 : 6}%)'/><text x='200' y='195' text-anchor='middle' font-family='Arial' font-size='24' fill='#ff6a1a'>${n}</text><text x='200' y='232' text-anchor='middle' font-family='Arial' font-size='18' fill='#ff6a1a' opacity='.6'>foto ${i + 1}</text></svg>`,
+            `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'><rect width='400' height='500' fill='#EFEAE6'/><text x='200' y='250' text-anchor='middle' font-family='Arial' font-size='20' fill='#262721'>${t}</text><text x='200' y='282' text-anchor='middle' font-family='Arial' font-size='14' fill='#8a847f'>Foto próximamente</text></svg>`,
           )
         );
       }
@@ -1466,7 +1563,7 @@
           (x) =>
             `• ${x.q} x ${x.n}${x.st ? " [EN STOCK]" : ""} (${[x.v, x.s && "talle " + x.s, x.c && "color " + x.c, x.dis && "diseño " + x.dis].filter(Boolean).join(", ")}) = ${fmt(x.p * x.q)}`,
         );
-        const o = `Hola Místicalab, quiero hacer este pedido:\n${L.join("\n")}\nTotal: ${fmt(total())} (envío a coordinar)${$("#nt").value ? "\nComentarios: " + $("#nt").value : ""}\nPago por transferencia, te mando el comprobante.`;
+        const o = `Hola Mistica, quiero hacer este pedido:\n${L.join("\n")}\nTotal: ${fmt(total())} (envío a coordinar)${$("#nt").value ? "\nComentarios: " + $("#nt").value : ""}\nPago por transferencia, te mando el comprobante.`;
         $("#ord").value = cart.length ? o : "";
         $("#cp").disabled = !cart.length;
         $("#bank").textContent =
@@ -1686,7 +1783,7 @@
         nat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
       };
       function barraCompartir(p, st) {
-        const msg = "¡Mirá lo que encontré en Místicalab! " + p.n;
+        const msg = "¡Mirá lo que encontré en Mistica! " + p.n;
         const bar = document.createElement("div");
         bar.className = "shr";
         const ib = (a, t) => `<button type="button" class="ic ${a}" data-a="${a}" title="${t}" aria-label="${t}">${ICO[a]}</button>`;
@@ -1886,12 +1983,16 @@
           a: "De 10 a 15 días hábiles es el tiempo que recomendamos. Dependiendo del producto, la cantidad y si tenemos stock, puede ser en la misma semana, pero siempre consultá. Apenas nos escribís te confirmamos el tiempo estimado.",
         },
         {
+          q: "¿Hacen pedidos por cantidad (marcas, egresados, iglesias)?",
+          a: "Sí. Contanos qué prenda, cuántas unidades y tu logo o diseño, y te pasamos un presupuesto por cantidad.",
+        },
+        {
           q: "¿Puedo pedir un diseño propio?",
-          a: "Sí. Contanos tu idea (una banda, una frase, un nombre, una referencia), armamos el diseño con vos y lo llevamos a la prenda que mejor funcione.",
+          a: "Sí. Contanos tu idea (tu logo, una frase, un nombre, una referencia), armamos el diseño con vos y lo llevamos a la prenda que mejor funcione.",
         },
         {
           q: "¿Cómo elijo mi talle?",
-          a: "Trabajamos todos los talles del S al 7XL. Si dudás entre dos, escribinos con tu altura y contextura y te ayudamos.",
+          a: "Remeras del S al 6XL y buzos del S al 7XL. Si dudás entre dos, escribinos con tu altura y contextura y te ayudamos.",
         },
               ];
       $("#envios").innerHTML = ENVIOS.map(
@@ -1904,10 +2005,10 @@
       if (WHATSAPP) {
         const w = $("#wafloat");
         w.href =
-          "https://wa.me/" +
+          "https://wa.me/541173639842" +
           WHATSAPP +
           "?text=" +
-          encodeURIComponent("Hola Místicalab, quería consultar por una prenda.");
+          encodeURIComponent("Hola Jesi, quería consultar por una prenda.");
         w.hidden = false;
       }
       // 13) EN STOCK: si hay productos en STOCK, dibuja la sección y muestra el link del menú.
