@@ -6,11 +6,11 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>Mistica · Llevá puesto lo que te representa</title>
+    <title>Llevá puesto lo que te representa</title>
     <!-- FAVICON (iconito de la pestaña) y color de la barra del celular. Archivo: favicon.png en la misma carpeta. -->
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
-    <meta name="theme-color" content="#262721" />
+    <meta id="theme-color" name="theme-color" content="#262721" />
     <meta
       name="description"
       content="Mistica: remeras, buzos, baby tees y tote bags personalizadas para emprendimientos, egresados, comunidades y fans. ZONA OESTE, envíos a todo el país."
@@ -39,6 +39,21 @@
     <script>
       var MANTENIMIENTO = false;
       if (MANTENIMIENTO) document.documentElement.classList.add("mant");
+
+      (function () {
+        var savedTheme = null;
+        try {
+          savedTheme = localStorage.getItem("mistica-theme");
+        } catch (e) {}
+        var preferredTheme =
+          savedTheme ||
+          (window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.dataset.theme = preferredTheme;
+        document.documentElement.style.colorScheme = preferredTheme;
+      })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,6 +93,34 @@
         box-sizing: border-box;
         padding-top: env(safe-area-inset-top, 0px);
         padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      :root[data-theme="dark"] {
+        --bg: #171915;
+        --fg: #f3efe9;
+        --ac: #f3efe9;
+        --ember: #f3efe9;
+        --bone: #d9d3cd;
+        --grafito: #242621;
+        --links: #d5a95b;
+        --su: #20221e;
+        --card: #292b26;
+        --linea: #45483f;
+        --oscuros: #201e1b;
+        color-scheme: dark;
+      }
+      body,
+      nav,
+      .svc,
+      .size-guide,
+      .alt,
+      #pm,
+      #tb,
+      #cart,
+      #co {
+        transition:
+          background-color 0.25s ease,
+          color 0.25s ease,
+          border-color 0.25s ease;
       }
       /* BASE: scroll suave, tipografía general y ancho máximo del contenido (.w). */
       html {
@@ -161,6 +204,16 @@
       }
       nav a {
         text-decoration: none;
+      }
+      #theme-toggle {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        line-height: 1;
       }
       @media (max-width: 700px) {
         nav li.h {
@@ -1042,6 +1095,45 @@
       #tb::backdrop {
         background: rgba(0, 0, 0, 0.5);
       }
+      #tb,
+      #info-modal {
+        max-height: 92vh;
+        overflow: auto;
+        color: var(--fg);
+      }
+      #tb {
+        max-width: min(760px, 94vw);
+      }
+      #info-modal {
+        width: min(760px, 94vw);
+        border: 0;
+        border-radius: 10px;
+        background: var(--bg);
+        padding: 20px;
+      }
+      #info-modal::backdrop {
+        background: rgba(0, 0, 0, 0.55);
+      }
+      .modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .modal-head h2 {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+      }
+      .modal-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1.5px solid var(--ac);
+        background: var(--card);
+        color: var(--ac);
+        font-size: 1.4rem;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
       table {
         border-collapse: collapse;
         width: 100%;
@@ -1169,7 +1261,7 @@
       }
       .hero h1 {
         font: 700 clamp(2.1rem, 5.6vw, 3.6rem)/1.08 var(--serif);
-        color: var(--negro);
+        color: var(--ember);
         margin-bottom: 18px;
       }
       .hero h1 i {
@@ -1187,6 +1279,75 @@
       }
       .heroart {
         border-radius: 14px;
+      }
+      .about-copy {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1.5px solid
+          color-mix(in srgb, var(--fg) 18%, transparent);
+      }
+      .about-copy h2 {
+        font-size: clamp(1.45rem, 3vw, 2rem);
+        margin-bottom: 10px;
+      }
+      .about-copy p {
+        margin: 0;
+        font-size: 1rem;
+      }
+      .hero-carousel {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 440px;
+        aspect-ratio: 4 / 5;
+        margin: 0 auto;
+        border-radius: 14px;
+        background: var(--card);
+        box-shadow: 0 14px 34px -20px rgba(0, 0, 0, 0.5);
+      }
+      .hero-slides {
+        display: flex;
+        height: 100%;
+        transition: transform 0.45s ease;
+      }
+      .hero-slide {
+        flex: 0 0 100%;
+        display: grid;
+        place-items: center;
+        min-width: 100%;
+        background: var(--card);
+      }
+      .hero-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .hero-carousel button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border: 0;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--card) 88%, transparent);
+        color: var(--fg);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+      .hero-carousel .hero-prev {
+        left: 10px;
+      }
+      .hero-carousel .hero-next {
+        right: 10px;
+      }
+      .nav-modal {
+        border: 0;
+        background: none;
+        color: var(--fg);
+        font: 600 1rem var(--sans);
+        padding: 0;
+        cursor: pointer;
       }
       /* QUÉ HACEMOS */
       .para-grid {
@@ -1282,9 +1443,9 @@
           <li class="h"><a href="#para">Qué hacemos</a></li>
           <li class="h" id="navstock" hidden><a href="#stock">En stock</a></li>
           <li class="h"><a href="#tienda">Tienda</a></li>
-          <li class="h"><a href="#talles">Tabla de talles</a></li>
+          <li class="h"><button class="nav-modal" type="button" data-open-modal="tb">Tabla de talles</button></li>
           <li class="h"><a href="#como">Cómo pedir</a></li>
-          <li class="h"><a href="#info">Envíos y preguntas</a></li>
+          <li class="h"><button class="nav-modal" type="button" data-open-modal="info-modal">Envíos y preguntas</button></li>
           <!-- Solo celular: botón "Tienda" que abre/cierra el menú de categorías (reemplaza al link "Tienda") -->
           <li class="m">
             <button
@@ -1295,6 +1456,17 @@
               aria-controls="subnav"
             >
               Tienda
+            </button>
+          </li>
+          <li>
+            <button
+              class="btn o"
+              id="theme-toggle"
+              type="button"
+              aria-label="Activar modo oscuro"
+              title="Cambiar tema"
+            >
+              <span aria-hidden="true">☾</span>
             </button>
           </li>
           <li>
@@ -1330,13 +1502,31 @@
               >Pedir presupuesto</a
             >
           </div>
+          <div class="about-copy" id="quienes-somos">
+            <h2>Quiénes somos</h2>
+            <p>
+              Somos Jesi y Diego, una pareja de emprendedores que no encontrábamos
+              ropa con las estampas de bandas o series que nos gustaban. Si las
+              encontrábamos, había que traerlas de afuera o pagarlas a precios
+              infladísimos. Por eso decidimos crear Mistica para fanáticos y para
+              todas las personas que quieren ponerse lo que las representa.
+            </p>
+          </div>
         </div>
-        <div>
-          <img
-            class="heroart"
-            src="logo-oscuro.png"
-            alt="Mistica · Llevá puesto lo que te representa"
-          />
+        <div class="hero-carousel" aria-label="Galería de Mistica">
+          <div class="hero-slides">
+            <div class="hero-slide">
+              <img src="logo-oscuro.png" alt="Mistica · Llevá puesto lo que te representa" />
+            </div>
+            <div class="hero-slide">
+              <img src="logo-oscuro.png" alt="Espacio para agregar una foto de Mistica" />
+            </div>
+            <div class="hero-slide">
+              <img src="logo-oscuro.png" alt="Espacio para agregar otra foto de Mistica" />
+            </div>
+          </div>
+          <button class="hero-prev" type="button" aria-label="Foto anterior">‹</button>
+          <button class="hero-next" type="button" aria-label="Foto siguiente">›</button>
         </div>
       </div>
     </header>
@@ -1447,17 +1637,6 @@
       </div>
     </section>
 
-    <!-- TABLA DE TALLES -->
-    <section class="alt" id="talles">
-      <div class="w">
-        <h2>Tabla de talles</h2>
-        <p style="margin-top: 12px">
-          Medidas en centímetros. Ancho medido de axila a axila y largo desde el hombro hasta el bajo.
-        </p>
-        <div class="size-guides" id="sizeguides"></div>
-      </div>
-    </section>
-
     <!-- CÓMO PEDIR: 3 pasos. Editá los textos libremente. -->
     <section class="alt" id="como">
       <div class="w">
@@ -1486,15 +1665,6 @@
             </p>
           </li>
         </ol>
-      </div>
-    </section>
-
-    <!-- ENVÍOS, PAGOS Y PREGUNTAS FRECUENTES. Los textos están en el script (listas ENVIOS y FAQ): editalos ahí. -->
-    <section id="info">
-      <div class="w">
-        <h2>Envíos, pagos y preguntas</h2>
-        <div class="info-cards" id="envios"></div>
-        <div class="faq" id="faq"></div>
       </div>
     </section>
 
@@ -1592,14 +1762,23 @@
 
     <!-- VENTANA de tabla de talles (se llena desde T en el script). -->
     <dialog id="tb">
-      <div id="tbc"></div>
-      <button
-        class="btn"
-        type="button"
-        onclick="this.closest('dialog').close()"
-      >
-        Cerrar y seguir viendo
-      </button>
+      <div class="modal-head">
+        <h2>Tabla de talles</h2>
+        <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <p>Medidas en centímetros. Ancho medido de axila a axila y largo desde el hombro hasta el bajo.</p>
+      <div class="size-guides" id="sizeguides"></div>
+      <button class="btn" type="button" data-close-modal>Cerrar y seguir viendo</button>
+    </dialog>
+
+    <dialog id="info-modal" aria-label="Envíos, pagos y preguntas">
+      <div class="modal-head">
+        <h2>Envíos, pagos y preguntas</h2>
+        <button class="modal-close" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <div class="info-cards" id="envios"></div>
+      <div class="faq" id="faq"></div>
+      <button class="btn" type="button" data-close-modal>Cerrar y seguir viendo</button>
     </dialog>
 
     <script>
@@ -1649,7 +1828,7 @@
           t: "Tote bags",
           d: "Tote bags personalizadas con tu diseño o tu logo.",
         },
-        { id: "servicios", t: "Servicios" },
+        { id: "servicios", t: "Servicios para marcas" },
         { id: "contacto", t: "Contacto" },
       ];
       // 3c) SERVICIOS: resumen básico que se ve en el botón "Servicios". Editá, sumá o borrá bloques libremente.
@@ -1957,10 +2136,25 @@
         }
       };
       // Abre la ventana con la tabla de talles de la clave pedida (uni, muj, buzo...).
+      function renderSizeGuides(keys = ["uni", "uni_especial", "muj"]) {
+        $("#sizeguides").innerHTML = keys
+          .map((key) => {
+            const t = T[key];
+            return `<article class="size-guide">
+              <h3>${t.t}</h3>
+              <table>
+                <tr><th>Talle</th>${t.s.map((size) => `<th>${size}</th>`).join("")}</tr>
+                <tr><th>Ancho</th>${t.a.map((width) => `<td>${width} cm</td>`).join("")}</tr>
+                <tr><th>Largo</th>${t.l.map((length) => `<td>${length} cm</td>`).join("")}</tr>
+              </table>
+              <p>${t.n} Medidas aproximadas.</p>
+            </article>`;
+          })
+          .join("");
+      }
       function table(k) {
         const t = T[k];
-        $("#tbc").innerHTML =
-          `<h3>${t.t}</h3><table><tr><th>Talle</th>${t.s.map((i) => `<th>${i}</th>`).join("")}</tr><tr><th>Largo</th>${t.l.map((x) => `<td>${x}</td>`).join("")}</tr><tr><th>Ancho</th>${t.a.map((x) => `<td>${x}</td>`).join("")}</tr></table><small>Medidas en cm. ${t.n} Si tu talle no está en la tabla, escribime.</small><p></p>`;
+        renderSizeGuides([k]);
         $("#tb").showModal();
       }
       // Si una foto no existe (todavía no la subiste), se saca del carrusel. Si no queda ninguna, se muestra una imagen de ejemplo.
@@ -2347,7 +2541,8 @@
       // MENÚ de la barra superior: al elegir una categoría, la muestra, baja a la tienda y (en celular) cierra el menú.
       $("#subnav .w").innerHTML =
         botonesTipo("sn") +
-        `<a class="sn-link" href="#talles">Tabla de talles</a>`;
+        `<button class="sn-link" type="button" data-open-modal="tb">Tabla de talles</button>` +
+        `<button class="sn-link" type="button" data-open-modal="info-modal">Envíos y preguntas</button>`;
       const menu = $("#subnav"),
         botonMenu = $("#tm");
       const cerrarMenu = () => {
@@ -2363,7 +2558,12 @@
         cerrarMenu();
         $("#tienda").scrollIntoView();
       };
-      menu.querySelector(".sn-link").onclick = cerrarMenu;
+      menu.querySelectorAll("[data-open-modal]").forEach((button) => {
+        button.onclick = () => {
+          cerrarMenu();
+          abrirModalSimple(button.dataset.openModal);
+        };
+      });
 
       // 12b) ENVÍOS, PAGOS Y PREGUNTAS FRECUENTES. Editá los textos libremente (revisalos: son una base general).
       //      ENVIOS = las 3 tarjetas de arriba.   FAQ = preguntas desplegables. Para sumar una pregunta, copiá un bloque { q, a }.
@@ -2403,26 +2603,106 @@
           a: "Las remeras unisex usan talles T1 al T10 y las de corte mujer usan T1 al T5. Los buzos usan talles del S al 7XL. Si dudás entre dos, escribinos con tu altura y contextura y te ayudamos.",
         },
       ];
-      $("#sizeguides").innerHTML = ["uni", "uni_especial", "muj"]
-        .map((key) => {
-          const t = T[key];
-          return `<article class="size-guide">
-            <h3>${t.t}</h3>
-            <table>
-              <tr><th>Talle</th>${t.s.map((size) => `<th>${size}</th>`).join("")}</tr>
-              <tr><th>Ancho</th>${t.a.map((width) => `<td>${width} cm</td>`).join("")}</tr>
-              <tr><th>Largo</th>${t.l.map((length) => `<td>${length} cm</td>`).join("")}</tr>
-            </table>
-            <p>${t.n} Medidas aproximadas.</p>
-          </article>`;
-        })
-        .join("");
+      renderSizeGuides();
       $("#envios").innerHTML = ENVIOS.map(
         (e) => `<div class="svc"><h3>${e.t}</h3><p>${e.d}</p></div>`,
       ).join("");
       $("#faq").innerHTML = FAQ.map(
         (f) => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`,
       ).join("");
+
+      function abrirModalSimple(id) {
+        const dialog = document.getElementById(id);
+        if (!dialog) return;
+        if (id === "tb") renderSizeGuides();
+        if (typeof dialog.showModal === "function") dialog.showModal();
+      }
+
+      document.querySelectorAll("[data-open-modal]").forEach((button) => {
+        button.addEventListener("click", () =>
+          abrirModalSimple(button.dataset.openModal),
+        );
+      });
+      document.querySelectorAll("[data-close-modal]").forEach((button) => {
+        button.addEventListener("click", () =>
+          button.closest("dialog").close(),
+        );
+      });
+      document.querySelectorAll(".modal-close").forEach((button) => {
+        button.addEventListener("click", () =>
+          button.closest("dialog").close(),
+        );
+      });
+      document.querySelectorAll("dialog").forEach((dialog) => {
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) dialog.close();
+        });
+      });
+
+      const heroSlides = $(".hero-slides"),
+        heroCarousel = $(".hero-carousel");
+      let heroSlideIndex = 0;
+      const heroSlideCount = heroSlides
+        ? heroSlides.querySelectorAll(".hero-slide").length
+        : 0;
+      function moverCarruselHero(direction) {
+        if (!heroSlides || !heroSlideCount) return;
+        heroSlideIndex =
+          (heroSlideIndex + direction + heroSlideCount) % heroSlideCount;
+        heroSlides.style.transform =
+          "translateX(-" + heroSlideIndex * 100 + "%)";
+      }
+      if (heroCarousel) {
+        heroCarousel
+          .querySelector(".hero-prev")
+          .addEventListener("click", () => moverCarruselHero(-1));
+        heroCarousel
+          .querySelector(".hero-next")
+          .addEventListener("click", () => moverCarruselHero(1));
+      }
+
+      const themeToggle = $("#theme-toggle"),
+        themeIcon = themeToggle.querySelector("span"),
+        themeColor = $("#theme-color");
+
+      function aplicarTema(theme) {
+        const dark = theme === "dark";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        themeToggle.setAttribute(
+          "aria-label",
+          dark ? "Activar modo claro" : "Activar modo oscuro",
+        );
+        themeToggle.title = dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+        themeIcon.textContent = dark ? "☀" : "☾";
+        themeColor.setAttribute("content", dark ? "#171915" : "#262721");
+      }
+
+      aplicarTema(document.documentElement.dataset.theme || "light");
+
+      themeToggle.onclick = () => {
+        const next =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        aplicarTema(next);
+        try {
+          localStorage.setItem("mistica-theme", next);
+        } catch (e) {}
+      };
+
+      const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
+      const cambiarSegunSistema = (event) => {
+        let savedTheme = null;
+        try {
+          savedTheme = localStorage.getItem("mistica-theme");
+        } catch (e) {}
+        if (!savedTheme) aplicarTema(event.matches ? "dark" : "light");
+      };
+      if (preferenciaSistema.addEventListener) {
+        preferenciaSistema.addEventListener("change", cambiarSegunSistema);
+      } else if (preferenciaSistema.addListener) {
+        preferenciaSistema.addListener(cambiarSegunSistema);
+      }
+
       // Botón flotante de WhatsApp: se muestra solo si cargaste tu número en WHATSAPP (arriba, en los datos de pago).
       if (WHATSAPP) {
         const w = $("#wafloat");
