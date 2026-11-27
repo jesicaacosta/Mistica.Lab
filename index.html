@@ -54,6 +54,37 @@
         document.documentElement.dataset.theme = preferredTheme;
         document.documentElement.style.colorScheme = preferredTheme;
       })();
+
+
+      // Auto-play del carrusel del Hero (se pausa si pasás el mouse)
+      if (heroCarousel && heroSlideCount > 1) {
+        let heroAuto = setInterval(() => moverCarruselHero(1), 4000);
+        heroCarousel.addEventListener("mouseenter", () => clearInterval(heroAuto));
+        heroCarousel.addEventListener("mouseleave", () => {
+          heroAuto = setInterval(() => moverCarruselHero(1), 4000);
+        });
+      }
+
+      // Animación suave al hacer scroll
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      document.querySelectorAll("section, .camino, .pasos li").forEach((el) => {
+        el.classList.add("reveal");
+        observer.observe(el);
+      });
+
+
+
+
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -351,6 +382,16 @@
       .sn:hover {
         color: var(--ac);
       }
+
+      @media (min-width: 701px) {
+        .subnav {
+          display: none;
+        }
+        html {
+          scroll-padding-top: calc(76px + env(safe-area-inset-top, 0px));
+        }
+      }
+      
       .sn-link {
         background: none;
         border: 0;
@@ -1247,63 +1288,17 @@
       .alt {
         background: var(--su);
       }
-      /* PORTADA */
+      /* PORTADA FULL-WIDTH */
       .hero {
-        padding: clamp(32px, 6vw, 72px) 0;
-      }
-      .hero .w {
-        grid-template-columns: 1.1fr 0.9fr;
-      }
-      @media (max-width: 860px) {
-        .hero .w {
-          grid-template-columns: 1fr;
-        }
-      }
-      .hero h1 {
-        font: 700 clamp(2.1rem, 5.6vw, 3.6rem)/1.08 var(--serif);
-        color: var(--ember);
-        margin-bottom: 18px;
-      }
-      .hero h1 i {
-        font-style: normal;
-        border-bottom: 4px solid var(--rojo);
-      }
-      .hero p {
-        font-size: 1.1rem;
-      }
-      .hero .btns {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 8px;
-      }
-      .heroart {
-        border-radius: 14px;
-      }
-      .about-copy {
-        margin-top: 24px;
-        padding-top: 20px;
-        border-top: 1.5px solid
-          color-mix(in srgb, var(--fg) 18%, transparent);
-      }
-      .about-copy h2 {
-        font-size: clamp(1.45rem, 3vw, 2rem);
-        margin-bottom: 10px;
-      }
-      .about-copy p {
-        margin: 0;
-        font-size: 1rem;
+        padding: 0 0 clamp(40px, 6vw, 72px);
       }
       .hero-carousel {
         position: relative;
         overflow: hidden;
         width: 100%;
-        max-width: 440px;
-        aspect-ratio: 4 / 5;
-        margin: 0 auto;
-        border-radius: 14px;
+        height: clamp(320px, 58vh, 620px);
         background: var(--card);
-        box-shadow: 0 14px 34px -20px rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid var(--linea);
       }
       .hero-slides {
         display: flex;
@@ -1312,34 +1307,74 @@
       }
       .hero-slide {
         flex: 0 0 100%;
-        display: grid;
-        place-items: center;
         min-width: 100%;
-        background: var(--card);
+        height: 100%;
       }
       .hero-slide img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover; /* Llena todo el ancho sin deformarse */
+        display: block;
       }
       .hero-carousel button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         border: 0;
         border-radius: 50%;
-        background: color-mix(in srgb, var(--card) 88%, transparent);
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
         color: var(--fg);
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         cursor: pointer;
+        z-index: 2;
       }
-      .hero-carousel .hero-prev {
-        left: 10px;
+      .hero-carousel .hero-prev { left: 18px; }
+      .hero-carousel .hero-next { right: 18px; }
+
+      .hero-body {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 44px;
+        align-items: start;
+        padding-top: clamp(32px, 5vw, 56px);
       }
-      .hero-carousel .hero-next {
-        right: 10px;
+      @media (max-width: 860px) {
+        .hero-body {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+      }
+      .hero h1 {
+        font: 700 clamp(2.1rem, 5vw, 3.4rem)/1.08 var(--serif);
+        color: var(--ember);
+        margin-bottom: 16px;
+      }
+      .hero h1 i {
+        font-style: normal;
+        border-bottom: 4px solid var(--rojo);
+      }
+      .hero p {
+        font-size: 1.08rem;
+      }
+      .hero .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .about-copy {
+        padding-left: 20px;
+        border-left: 3px solid var(--dorado);
+      }
+      .about-copy h2 {
+        font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+        margin-bottom: 10px;
+      }
+      .about-copy p {
+        margin: 0;
+        font-size: 0.98rem;
       }
       .nav-modal {
         border: 0;
@@ -1349,29 +1384,71 @@
         padding: 0;
         cursor: pointer;
       }
+
+
+
+
       /* QUÉ HACEMOS */
-      .para-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        margin-top: 28px;
-      }
-      @media (max-width: 700px) {
-        .para-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-      .para-grid .svc {
-        padding: 26px;
-        gap: 12px;
-      }
-      .para-grid .svc a.ln {
-        color: var(--negro);
-        border-bottom: 2px solid var(--rojo);
-        text-decoration: none;
-        font-size: 0.95rem;
-        margin-top: 4px;
-      }
+      
+      /* Reemplaza .para-grid por un diseño editorial abierto sin cajas rígidas */
+.caminos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 32px;
+  border-top: 1px solid var(--linea);
+  padding-top: 32px;
+}
+@media (max-width: 700px) {
+  .caminos {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.camino {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding-left: 18px;
+  border-left: 3px solid var(--rojo); /* Acento de marca en lugar de caja cerrada */
+}
+.camino h3 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.camino a.ln {
+  color: var(--fg);
+  border-bottom: 2px solid var(--dorado);
+  text-decoration: none;
+  font-weight: 600;
+  padding-bottom: 2px;
+  transition: border-color 0.2s;
+}
+.camino a.ln:hover {
+  border-color: var(--rojo);
+}
+
+/* Badges escaneables para la tienda */
+.tienda-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 22px;
+}
+.tienda-badges span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--su);
+  border: 1px solid var(--linea);
+}
+
+
+
+
       /* PIE oscuro con la paleta de la marca */
       footer {
         background: var(--negro);
@@ -1410,6 +1487,102 @@
         border-radius: 8px;
         display: block;
       }
+
+      /* === DINAMISMO Y MICRO-INTERACCIONES === */
+
+/* 1. Cinta infinita (Marquee) */
+.marquee {
+  background: var(--negro);
+  color: var(--crema);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 12px 0;
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+  font: 600 0.85rem var(--serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:root[data-theme="dark"] .marquee {
+  background: var(--su);
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee-scroll 26s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee span {
+  padding-right: 36px;
+}
+.marquee i {
+  color: var(--dorado);
+  font-style: normal;
+  margin-right: 36px;
+}
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 2. Micro-interacciones en botones y tarjetas */
+.btn, .tag, .card, .camino {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.35);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.22);
+  border-color: color-mix(in srgb, var(--fg) 30%, transparent);
+}
+.grid .card .car img {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.grid .card:hover .car img {
+  transform: scale(1.04);
+}
+.camino:hover {
+  transform: translateX(4px);
+}
+
+/* 3. Pulso sutil en el botón de WhatsApp */
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35); }
+  50% { box-shadow: 0 8px 28px rgba(37, 211, 102, 0.7); }
+}
+.wafloat {
+  animation: wa-pulse 3s infinite;
+  transition: transform 0.2s ease;
+}
+.wafloat:hover {
+  transform: scale(1.08);
+}
+
+/* 4. Entrada suave al scrollear */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .wafloat { animation: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+
+
     </style>
   </head>
   <body>
@@ -1483,14 +1656,30 @@
     </nav>
 
     <!-- PORTADA. Texto de presentación: editalo a gusto. La lista de universos (<ul id="pila">, solo decorativa) la genera el script a partir de TAGS. -->
-    <header class="hero" id="top">
-      <div class="w">
+<header class="hero" id="top">
+      <!-- CARRUSEL DE ANCHO COMPLETO -->
+      <div class="hero-carousel" aria-label="Galería de Mistica">
+        <div class="hero-slides">
+          <div class="hero-slide">
+            <img src="img/carrusel.jpg" alt="Mistica · Llevá puesto lo que te representa" />
+          </div>
+          <div class="hero-slide">
+            <img src="img/banner-2.jpg" alt="Colección Mistica" />
+          </div>
+          <div class="hero-slide">
+            <img src="img/banner-3.jpg" alt="Estampas personalizadas Mistica" />
+          </div>
+        </div>
+        <button class="hero-prev" type="button" aria-label="Foto anterior">‹</button>
+        <button class="hero-next" type="button" aria-label="Foto siguiente">›</button>
+      </div>
+
+      <!-- TEXTOS DE PRESENTACIÓN ABAJO DEL CARRUSEL -->
+      <div class="w hero-body">
         <div>
           <h1>Llevá puesto <i>lo que te representa.</i></h1>
           <p>
-            Remeras, buzos, baby tees y tote bags personalizadas para tu
-            emprendimiento, tu promo, tu comunidad o tu fandom. Diseñamos,
-            estampamos y te lo entregamos listo.
+            Estampas con identidad. Elegí entre nuestros diseños o traé tu idea y la bajamos a prenda.
           </p>
           <div class="btns">
             <a class="btn" href="#tienda">Ver la tienda</a>
@@ -1502,96 +1691,55 @@
               >Pedir presupuesto</a
             >
           </div>
-          <div class="about-copy" id="quienes-somos">
-            <h2>Quiénes somos</h2>
-            <p>
-              Somos Jesi y Diego, una pareja de emprendedores que no encontrábamos
-              ropa con las estampas de bandas o series que nos gustaban. Si las
-              encontrábamos, había que traerlas de afuera o pagarlas a precios
-              infladísimos. Por eso decidimos crear Mistica para fanáticos y para
-              todas las personas que quieren ponerse lo que las representa.
-            </p>
-          </div>
         </div>
-        <div class="hero-carousel" aria-label="Galería de Mistica">
-          <div class="hero-slides">
-            <div class="hero-slide">
-              <img src="logo-oscuro.png" alt="Mistica · Llevá puesto lo que te representa" />
-            </div>
-            <div class="hero-slide">
-              <img src="logo-oscuro.png" alt="Espacio para agregar una foto de Mistica" />
-            </div>
-            <div class="hero-slide">
-              <img src="logo-oscuro.png" alt="Espacio para agregar otra foto de Mistica" />
-            </div>
-          </div>
-          <button class="hero-prev" type="button" aria-label="Foto anterior">‹</button>
-          <button class="hero-next" type="button" aria-label="Foto siguiente">›</button>
+
+        <div class="about-copy" id="quienes-somos">
+          <h2>Detrás de la marca</h2>
+          <p>
+            Nacimos de una frustración simple: querer vestirnos con las bandas, historias y símbolos que nos vuelan la cabeza sin tener que importar ni pagar precios irreales. Creamos Mistica para que la ropa deje de ser genérica y hable por vos. (Hecho a pulmón desde Zona Oeste por Jesi y Diego).
+          </p>
         </div>
       </div>
     </header>
 
-    <!-- QUÉ HACEMOS: para quién trabajamos. Editá los textos libremente. -->
-    <section class="alt" id="para">
-      <div class="w">
-        <h2>Hacemos prendas para lo que te representa</h2>
-        <p style="margin-top: 12px">
-          Desde una remera para vos hasta pedidos por cantidad para tu marca, tu
-          grupo o tu comunidad.
-        </p>
-        <div class="para-grid">
-          <div class="svc">
-            <h3>Emprendimientos y marcas</h3>
-            <p>
-              Remeras, buzos y tote bags con tu logo: para tu equipo, tus
-              clientes o para vender como merch.
-            </p>
-            <a
-              class="ln"
-              href="https://www.instagram.com/misticalab_"
-              target="_blank"
-              rel="noopener"
-              >Pedir presupuesto</a
-            >
-          </div>
-          <div class="svc">
-            <h3>Egresados y grupos</h3>
-            <p>
-              Prendas de promo, cursos, viajes y equipos. Precios por cantidad y
-              todos los talles.
-            </p>
-            <a
-              class="ln"
-              href="https://www.instagram.com/misticalab_"
-              target="_blank"
-              rel="noopener"
-              >Pedir presupuesto</a
-            >
-          </div>
-          <div class="svc">
-            <h3>Iglesias y comunidades</h3>
-            <p>
-              Prendas para retiros, encuentros, ministerios y eventos, con el
-              diseño que los identifica.
-            </p>
-            <a
-              class="ln"
-              href="https://www.instagram.com/misticalab_"
-              target="_blank"
-              rel="noopener"
-              >Pedir presupuesto</a
-            >
-          </div>
-          <div class="svc">
-            <h3>Fans y lectores</h3>
-            <p>
-              Rock, libros, series, fútbol y cultura pop.
-            </p>
-            <a class="ln" href="#tienda">Ver la tienda</a>
-          </div>
-        </div>
+    <!-- CINTA DINÁMICA -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Rock & Bandas <i>✦</i> Cultura Pop <i>✦</i> Diseños a medida <i>✦</i> Talles reales hasta T10 / 7XL <i>✦</i> Envíos a todo el país <i>✦</i></span>
+        <span>Rock & Bandas <i>✦</i> Cultura Pop <i>✦</i> Diseños a medida <i>✦</i> Talles reales hasta T10 / 7XL <i>✦</i> Envíos a todo el país <i>✦</i></span>
       </div>
-    </section>
+    </div>
+
+
+    <!-- QUÉ HACEMOS -->
+<section class="alt" id="para">
+  <div class="w">
+    <h2>Tu idea, tu prenda</h2>
+    <div class="caminos">
+      <div class="camino">
+        <h3>Para vos</h3>
+        <p>Bandas, libros, cine o esa frase que te identifica. Elegí un diseño de
+          nuestro catálogo o mandanos tu propia idea. Hacemos desde una unidad.
+        </p>
+        <a class="ln" href="#tienda">Explorar catálogo →</a>
+      </div>
+      <div class="camino">
+        <h3>Para tu marca o grupo</h3>
+        <p>
+          Merchandising para emprendimientos, indumentaria para equipos, promos o
+          eventos. Precios por cantidad y curva completa de talles.
+        </p>
+        <a
+          class="ln"
+          href="https://www.instagram.com/misticalab_"
+          target="_blank"
+          rel="noopener"
+          >Pedir presupuesto →</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- EN STOCK: productos que ya tenés hechos. Se llena sola desde la lista STOCK del script (sección 7b)
          y se OCULTA sola (junto con su link del menú) si esa lista está vacía. Editá los textos si querés. -->
@@ -1606,19 +1754,19 @@
       </div>
     </section>
 
-    <!-- TIENDA. Las tarjetas se generan solas desde la lista de productos P del script. Para agregar/quitar productos NO tocás este HTML. -->
-    <section id="tienda">
-      <div class="w">
-        <h2>Tienda</h2>
-        <h3 style="margin-top: 14px; color: var(--fg)">
-          También podés enviarnos tu logo o tu diseño. Cualquier diseño puede ir
-          en cualquier prenda (¿te gustó el de una remera para un buzo? Se
-          hace).
-        </h3>
-        <p style="margin-top: 12px">
-          Armá tu pedido y pagalo por transferencia. Los pagos no se hacen en
-          esta web: yo te confirmo todo por mensaje y coordinamos el envío.
-        </p>
+
+<!-- TIENDA: encabezado directo y escaneable -->
+<section id="tienda">
+  <div class="w">
+    <h2>Tienda</h2>
+    <p style="margin-top: 10px; font-size: 1.05rem;">
+      <strong>Cualquier diseño va en cualquier prenda</strong> (¿te gustó una estampa para un buzo? Se hace) o podés enviarnos tu propio logo.
+    </p>
+    <div class="tienda-badges">
+      <span>✦ Estampado a pedido</span>
+      <span>✦ Talles hasta T10 / 7XL</span>
+      <span>✦ Pago por transferencia al confirmar</span>
+    </div>
         <div
           class="tags"
           id="tags"
@@ -1667,6 +1815,18 @@
         </ol>
       </div>
     </section>
+
+
+
+        <!-- CINTA DINÁMICA -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Rock & Bandas <i>✦</i> Cultura Pop <i>✦</i> Diseños a medida <i>✦</i> Talles reales hasta T10 / 7XL <i>✦</i> Envíos a todo el país <i>✦</i></span>
+        <span>Rock & Bandas <i>✦</i> Cultura Pop <i>✦</i> Diseños a medida <i>✦</i> Talles reales hasta T10 / 7XL <i>✦</i> Envíos a todo el país <i>✦</i></span>
+      </div>
+    </div>
+
+
 
     <!-- PIE: llamado final + botón a Instagram.  -->
     <footer>
@@ -2538,11 +2698,8 @@
         const b = e.target.closest(".tag");
         if (b) show(b.dataset.t);
       };
-      // MENÚ de la barra superior: al elegir una categoría, la muestra, baja a la tienda y (en celular) cierra el menú.
-      $("#subnav .w").innerHTML =
-        botonesTipo("sn") +
-        `<button class="sn-link" type="button" data-open-modal="tb">Tabla de talles</button>` +
-        `<button class="sn-link" type="button" data-open-modal="info-modal">Envíos y preguntas</button>`;
+     // MENÚ de la barra superior: al elegir una categoría, la muestra, baja a la tienda y (en celular) cierra el menú.
+      $("#subnav .w").innerHTML = botonesTipo("sn");
       const menu = $("#subnav"),
         botonMenu = $("#tm");
       const cerrarMenu = () => {
@@ -2707,7 +2864,7 @@
       if (WHATSAPP) {
         const w = $("#wafloat");
         w.href =
-          "https://wa.me/541173639842" +
+          "https://wa.me/" +
           WHATSAPP +
           "?text=" +
           encodeURIComponent("Hola Jesi, quería consultar por una prenda.");
