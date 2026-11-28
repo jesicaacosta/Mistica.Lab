@@ -1007,6 +1007,17 @@
         color: var(--links);
         margin-top: auto;
       }
+      .precio-regular,
+      .precio-promo {
+        display: block;
+        font: 400 0.85rem var(--sans);
+      }
+      .precio-regular {
+        color: var(--fg);
+      }
+      .precio-promo {
+        font-weight: 700;
+      }
       .vacio {
         padding: 40px 0;
       }
@@ -1984,6 +1995,11 @@
           t: "Tote bags",
           d: "Tote bags personalizadas con tu diseño o tu logo.",
         },
+        {
+          id: "gorras",
+          t: "Gorras",
+          d: "Gorras de gabardina y estilo vintage.",
+        },
         { id: "servicios", t: "Servicios para marcas" },
         { id: "contacto", t: "Contacto" },
       ];
@@ -2023,6 +2039,20 @@
       // TOTE BAGS: crudo o negro (ajustalo a lo que tengas).
       const CTOTE = [
         ["Crudo", "#EDE3CF"],
+        ["Negro", "#1A1A1A"],
+      ];
+      const CGAB = [
+        ["Negro", "#1A1A1A"],
+        ["Azul marino", "#14213D"],
+        ["Crema", "#EFE6D2"],
+        ["Blanca", "#FFFFFF"],
+      ];
+      const CVIN = [
+        ["Verde musgo", "#556B2F"],
+        ["Gris topo", "#8B8178"],
+        ["Rosa", "#D98C9A"],
+        ["Bordo", "#800020"],
+        ["Azul marino", "#14213D"],
         ["Negro", "#1A1A1A"],
       ];
       // 5) TABLAS DE TALLES (cm). l = largo, a = ancho, de talle 1 al 5. Se usan con t:"uni" / "muj" / "buzo" en una variante.
@@ -2201,6 +2231,28 @@
           tipo: "buzos",
           d: "Buzo canguro de friza clásica en blanco, negro o gris melange, con el diseño que pidas. Contanos tu idea y la armamos. Imagen de referencia: el diseño se hace a pedido.",
           v: [bz("Unisex", 45000)],
+        },
+        {
+          n: "Gorra de gabardina",
+          im: [
+            "img/GORRAS/gabardina-1.jpg",
+            "img/GORRAS/gabardina-2.jpg",
+            "img/GORRAS/gabardina-3.jpg",
+          ],
+          tipo: "gorras",
+          d: "Gorra de gabardina. Se puede agregar el estampado que elijas. Promoción por este mes.",
+          v: [{ n: "Única", p: 12000, pRegular: 15000, c: CGAB }],
+        },
+        {
+          n: "Gorra estilo vintage",
+          im: [
+            "img/GORRAS/vintage-1.jpg",
+            "img/GORRAS/vintage-2.jpg",
+            "img/GORRAS/vintage-3.jpg",
+          ],
+          tipo: "gorras",
+          d: "Gorra estilo vintage. Se puede agregar el estampado que elijas. Promoción por este mes.",
+          v: [{ n: "Única", p: 12000, pRegular: 15000, c: CVIN }],
         } /*
         {
           n: "Campera personalizada",
@@ -2369,7 +2421,7 @@
             (v.t
               ? `<button type="button" class="lk">Ver tabla de talles</button>`
               : "") +
-            `<div class="pr">${v.p ? fmt(v.p) : "A consultar"}</div><button type="button" class="btn add">${v.p ? "Agregar al carrito" : "Consultar por Instagram"}</button><small class="er" role="alert"></small>`;
+            `<div class="pr">${precioVariante(v)}</div><button type="button" class="btn add">${v.p ? "Agregar al carrito" : "Consultar por Instagram"}</button><small class="er" role="alert"></small>`;
           const q = (s) => o.querySelector(s),
             vs = q(".vs");
           if (vs)
@@ -2441,9 +2493,14 @@
       const precioCard = (p) => {
         const ps = p.v.map((v) => v.p).filter(Boolean);
         if (!ps.length) return "A consultar";
+        if (p.v.length === 1) return precioVariante(p.v[0]);
         const min = Math.min(...ps);
         return (ps.some((x) => x !== min) ? "Desde " : "") + fmt(min);
       };
+      const precioVariante = (v) =>
+        v.p
+          ? `${fmt(v.p)}${v.pRegular ? `<small class="precio-regular">Precio regular: <s>${fmt(v.pRegular)}</s></small><small class="precio-promo">Promoción por este mes</small>` : ""}`
+          : "A consultar";
       const necesitaOpciones = (p, st) => {
         if (!p.v.some((v) => v.p)) return false; // sin precio: el botón lleva directo a Instagram
         const v0 = p.v[0];
